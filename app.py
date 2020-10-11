@@ -7,9 +7,8 @@ app = Flask(__name__)
 def ping():
     return jsonify({'message': 'pong'})
 
+
 # Obtencion del objeto products
-
-
 @app.route('/products', methods=['GET'])
 def get_products():
     return jsonify({"message": "Product's list", "products": products})
@@ -53,14 +52,17 @@ def edit_product(product_name):
         })
     return ({'message': 'Product not found'})
 
+
 # Eliminar un objeto
 @app.route('/products/delete/<product_name>', methods=['DELETE'])
 def delete_product(product_name):
-    productFound = [product for product in products if product['name'] == product_name]
+    productFound = [
+        product for product in products if product['name'] == product_name]
     if len(productFound) > 0:
         products.remove(productFound[0])
         return jsonify({'message': 'product deleted', 'product': products})
     return jsonify({'message': 'Product not found'})
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)
