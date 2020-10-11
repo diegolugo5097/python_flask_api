@@ -39,7 +39,7 @@ def create_product():
 
 
 # editar un objeto
-@app.route('/products/<product_name>', methods=['PUT'])
+@app.route('/products/update/<product_name>', methods=['PUT'])
 def edit_product(product_name):
     productFound = [
         product for product in products if product['name'] == product_name]
@@ -53,6 +53,14 @@ def edit_product(product_name):
         })
     return ({'message': 'Product not found'})
 
+# Eliminar un objeto
+@app.route('/products/delete/<product_name>', methods=['DELETE'])
+def delete_product(product_name):
+    productFound = [product for product in products if product['name'] == product_name]
+    if len(productFound) > 0:
+        products.remove(productFound[0])
+        return jsonify({'message': 'product deleted', 'product': products})
+    return jsonify({'message': 'Product not found'})
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)
